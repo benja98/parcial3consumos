@@ -12,6 +12,10 @@ Future<List<Img>> fetchImgs(http.Client client) async {
   return compute(parseImg, response.body);
 }
 
+class SvgPicture {
+  static asset(String s, {color}) {}
+}
+
 List<Img> parseImg(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
@@ -52,7 +56,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     const appTitle = 'Parcial Consumos';
-
     return const MaterialApp(
       title: appTitle,
       home: MyHomePage(title: appTitle),
