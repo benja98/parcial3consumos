@@ -5,15 +5,13 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-Future<List<Img>> fetchPhotos(http.Client client) async {
+Future<List<Img>> fetchImgs(http.Client client) async {
   final response = await client
       .get(Uri.parse('https://jsonplaceholder.typicode.com/photos'));
 
-  // Use the compute function to run parsePhotos in a separate isolate.
   return compute(parseImg, response.body);
 }
 
-// A function that converts a response body into a List<Photo>.
 List<Img> parseImg(String responseBody) {
   final parsed = jsonDecode(responseBody).cast<Map<String, dynamic>>();
 
@@ -74,11 +72,11 @@ class MyHomePage extends StatelessWidget {
         title: Text(title),
       ),
       body: FutureBuilder<List<Img>>(
-        future: fetchPhotos(http.Client()),
+        future: fetchImgs(http.Client()),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             return const Center(
-              child: Text('An error has occurred!'),
+              child: Text('¡Se ha producido un error!'),
             );
           } else if (snapshot.hasData) {
             return PhotosList(photos: snapshot.data!);
